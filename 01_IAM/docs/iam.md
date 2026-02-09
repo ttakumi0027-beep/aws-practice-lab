@@ -1,7 +1,8 @@
 # IAMユーザ・グループ作成メモ
 
 ## 目的
-IAMユーザの作成方法及び意義を学ぶため。
+- IAMユーザの作成方法及び意義
+- IAMユーザの運用方法
 
 ## 構成図
 ![構成図]()
@@ -10,7 +11,7 @@ IAMユーザの作成方法及び意義を学ぶため。
 
 ## 構成
 
-IAMユーザ構成
+- IAMユーザ構成
 
 | ユーザ名 | 役割 | 権限 |
 |----|----|----|
@@ -20,22 +21,29 @@ IAMユーザ構成
 
 <br>
 
-IAMグループ構成
+- IAMグループ構成
 
 | グループ名 | 所属メンバー |
 |----|----|
-| admin       | admin |
 | Operation   | Operator1 |
 | Application | engineer1, engineer2 |
 
 <br>
 
-ポリシー構成
+- ポリシー構成
+
 | ポリシー名 | フルアクセス権限 |
 |----|----|
-| Administrator | フルアクセス |
-| Oeration      | EC2、ELB、Autoscaling、RDS、S3、Clooud Watch、Cloud Trail、Config |
-| Apllication   | EC2、ELB、Autoscaling、RDS、S3 |
+| AdministratorAccess | フルアクセス |
+| Oeration            | EC2、ELB、Autoscaling、RDS、S3、Clooud Watch、Cloud Trail、Config |
+| Apllication         | EC2、ELB、Autoscaling、RDS、S3 |
+
+<br>
+
+- Cloud Trail設定
+AWS環境の操作ログを取得し、監査およびセキュリティ対策を行うため有効化
+管理イベントのみ（検証用かつコスト削減のため）
+
 
 ---
 
@@ -62,6 +70,9 @@ Clooud Watch、Cloud Trail、Configのフルアクセス権限付与
    
 2. Operationグループを作成<br>
    Application、Operationポリシーを設定
+
+3. adminグループを作成<br>
+   AdministratorAccessポリシーを設定
    
 4. engineer1, engineer2の作成<br>
    Apllicationグループに追加
@@ -69,15 +80,19 @@ Clooud Watch、Cloud Trail、Configのフルアクセス権限付与
 5. Operator1の作成<br>
    Operationグループに追加
 
+6. adminユーザの作成<br>
+   adminグループに追加
+
+<br>
+
+### 3. Cloud Trailのログ有効化<br>
+[¥1]: Cloud Trailは無料だがログの出力先のS3で、データ保存料金がかかるため作成後削除済み
+
+
 ---
 
 ## 学んだこと
-- IAMポリシーはユーザ、グループ、ロールに適用する。
-- IAMグループは複数のIAMユーザに権限を効率的に設定できる。
-- IAMロールはAWSリソースに適用する。また、別のAWSアカウントのIAMユーザにアクセス権限を委譲可。
-- ルートユーザでAWSサービスを使うことはなく、基本的にIAMユーザを使うこと。
-- インラインポリシーは、一つのアイデンティティ（ユーザ、グループ、ロール）にしか適用不可。逆に管理ポリシーは使い回し可。
-- 信頼ポリシーは、特定のユーザやリソースのアクセスを許すためのポリシー。権限の委譲など。
+
 ---
 
 ## 詰まった点・要確認事項
