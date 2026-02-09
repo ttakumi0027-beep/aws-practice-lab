@@ -9,27 +9,53 @@ IAMユーザの作成方法及び意義を学ぶため。
 ---
 
 ## 構成
-以下、３名のIAMユーザを作成。
+IAMユーザ構成
+| ユーザ名 | 役割 | 権限 |
+|----|----|----|
+| admin                 | 管理者  　　 | Admin権限を付与  　　　　　　　　　　　　|
+| Operator1             | 運用管理者   | 運用ツールや開発環境のアクセスを付与  　　|
+| engineer1, engineer2  | 開発者  　　 | アプリ開発環境のみアクセスを付与  　　　　|
 
-| ユーザ名 | 役割 | 権限 | ポリシー名 |
-|----|----|----|----|
-| ユーザ１  | 管理者  　　| Admin権限を付与  　　　　　　　　　　　　| Administrator |
-| ユーザ１  | 運用管理者  | 運用ツールや開発環境のアクセスを付与  　　| Application  |
-| ユーザ１  | 開発者  　　| アプリ開発環境のみアクセスを付与  　　　　| Application  |
+
+IAMグループ構成
+| グループ名 | 所属メンバー |
+|----|----|
+| admin | admin |
+| Operation | Operator1 |
+| Application | engineer1, engineer2 |
+
+
+ポリシー構成
+| ポリシー名 | フルアクセス権限 |
+|----|----|
+| Administrator | フルアクセス |
+| Oeration      | EC2、ELB、Autoscaling、RDS、S3、Clooud Watch、Cloud Trail、Config |
+| Apllication   | EC2、ELB、Autoscaling、RDS、S3 |
 
 ---
 
 ## 構築手順
 
 ### 1. IAMポリシーの作成
-1. コンソールにて、　IAM > ポリシー > ポリシーの作成を選択
-2. EC2を選択し、手動アクションをチェック
-3. リソースタグよりすべてにチェック
-4. ELB、Autoscaling、RDS、S3も同様に2~3を実行
-5. ポリシーの確認画面で、名前"Application"と説明"Application"と記載して作成
 
+### 手順
+1. Application（カスタムポリシー）の作成
+   - EC2、ELB、Autoscaling、RDS、S3のフルアクセス権限付与
+2. Oeration（カスタムポリシー）の作成
+   - Clooud Watch、Cloud Trail、Configのフルアクセス権限付与
 
-### 2. IAM
+### 2. IAMグループ・ユーザの作成
+
+###手順
+1. Applicationグループを作成
+   - Applicationポリシーを設定
+2. Operationグループを作成
+　　- Application、Operationポリシーを設定
+3. engineer1, engineer2の作成
+   - Apllicationグループに追加
+4. Operator1の作成
+   - Operationグループに追加
+
 ---
 
 ## 学んだこと
