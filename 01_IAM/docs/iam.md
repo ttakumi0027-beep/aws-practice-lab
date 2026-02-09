@@ -57,23 +57,23 @@ AWS環境の操作ログを取得し、監査およびセキュリティ対策�
 ### 1. IAMポリシーの作成
 
 1. Application（カスタムポリシー）の作成<br>
-![Applicationポリシー作成](images/policy_application.png)
+![Applicationポリシー作成](../images/policy_application.png)
    
 2. Oeration（カスタムポリシー）の作成<br>
-![Operationポリシー作成](images/policy_application.png)
+![Operationポリシー作成](../images/policy_application.png)
 
 <br>
 
 ### 2. IAMグループ・ユーザの作成
 
 1. Applicationグループを作成<br>
-   ![Applicationグループ作成](images/application_group.png)
+   ![Applicationグループ作成](../images/application_group.png)
    
 2. Operationグループを作成<br>
-   ![Operationポリシー作成](images/operation_group.png)
+   ![Operationポリシー作成](../images/operation_group.png)
 
 3. adminグループを作成<br>
-   ![adminポリシー作成](images/admin_group.png)
+   ![adminポリシー作成](../images/admin_group.png)
    
 4. engineer1, engineer2の作成<br>
    Apllicationグループに追加
