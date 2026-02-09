@@ -4,6 +4,11 @@
 - IAMユーザの作成方法及び意義
 - IAMユーザの運用方法
 
+## 設計方針
+- 権限管理はユーザではなくグループ単位で実施
+- 運用・開発・管理者で権限を分離
+- CloudTrailによる監査設定
+
 ## 構成図
 ![構成図]()
 
@@ -32,11 +37,11 @@
 
 - ポリシー構成
 
-| ポリシー名 | フルアクセス権限 |
+| ポリシー名 | 権限 |
 |----|----|
 | AdministratorAccess | フルアクセス |
-| Oeration            | EC2、ELB、Autoscaling、RDS、S3、Clooud Watch、Cloud Trail、Config |
-| Apllication         | EC2、ELB、Autoscaling、RDS、S3 |
+| Oeration            | EC2、ELB、Autoscaling、RDS、S3、Clooud Watch、Cloud Trail、Config フルアクセス権限|
+| Apllication         | EC2、ELB、Autoscaling、RDS、S3 フルアクセス権限|
 
 <br>
 
@@ -51,8 +56,6 @@ AWS環境の操作ログを取得し、監査およびセキュリティ対策�
 
 ### 1. IAMポリシーの作成
 
-### 手順
-
 1. Application（カスタムポリシー）の作成<br>
 EC2、ELB、Autoscaling、RDS、S3のフルアクセス権限付与
    
@@ -62,8 +65,6 @@ Clooud Watch、Cloud Trail、Configのフルアクセス権限付与
 <br>
 
 ### 2. IAMグループ・ユーザの作成
-
-### 手順
 
 1. Applicationグループを作成<br>
    Applicationポリシーを設定
@@ -83,15 +84,15 @@ Clooud Watch、Cloud Trail、Configのフルアクセス権限付与
 6. adminユーザの作成<br>
    adminグループに追加
 
-<br>
-
-### 3. Cloud Trailのログ有効化<br>
+### 3. Cloud Trailのログ有効化
 [¥1]: Cloud Trailは無料だがログの出力先のS3で、データ保存料金がかかるため作成後削除済み
 
 
 ---
 
 ## 学んだこと
+- IAMユーザへ直接権限付与するのではなく、グループ経由で付与するのが推奨
+- CloudTrailを有効化することで監査ログを取得できる
 
 ---
 
