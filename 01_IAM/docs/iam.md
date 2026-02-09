@@ -57,34 +57,27 @@ AWS環境の操作ログを取得し、監査およびセキュリティ対策�
 ### 1. IAMポリシーの作成
 
 1. Application（カスタムポリシー）の作成<br>
-![Applicationポリシー作成](../images/policy_application.png)
-   
+<img src="../images/policy_application.png" width="400">
+
 2. Oeration（カスタムポリシー）の作成<br>
-![Operationポリシー作成](../images/policy_application.png)
+<img src="../images/policy_operation.png" width="400">
 
 <br>
 
 ### 2. IAMグループ・ユーザの作成
 
-1. Applicationグループを作成<br>
-   ![Applicationグループ作成](../images/application_group.png)
+1. Applicationグループを作成し、engineer1, engineer2を追加<br>
+<img src="../images/application_group.png" width="400">
    
-2. Operationグループを作成<br>
-   ![Operationポリシー作成](../images/operation_group.png)
+2. Operationグループを作成し、Operator1を追加<br>
+<img src="../images/operation_group.png" width="400">
 
-3. adminグループを作成<br>
-   ![adminポリシー作成](../images/admin_group.png)
+3. adminグループを作成し、adminユーザを追加<br>
+<img src="../images/admin_group.png" width="400">
    
-4. engineer1, engineer2の作成<br>
-   Apllicationグループに追加
-   
-5. Operator1の作成<br>
-   Operationグループに追加
-
-6. adminユーザの作成<br>
-   adminグループに追加
 
 ### 3. Cloud Trailのログ有効化
+
 - 管理イベントのみ取得
 - ログ保存先：S3
 
