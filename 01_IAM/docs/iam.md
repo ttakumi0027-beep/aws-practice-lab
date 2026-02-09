@@ -9,21 +9,26 @@ IAMユーザの作成方法及び意義を学ぶため。
 ---
 
 ## 構成
+
 IAMユーザ構成
+
 | ユーザ名 | 役割 | 権限 |
 |----|----|----|
 | admin                 | 管理者  　　 | Admin権限を付与  　　　　　　　　　　　　|
 | Operator1             | 運用管理者   | 運用ツールや開発環境のアクセスを付与  　　|
 | engineer1, engineer2  | 開発者  　　 | アプリ開発環境のみアクセスを付与  　　　　|
 
+<br>
 
 IAMグループ構成
+
 | グループ名 | 所属メンバー |
 |----|----|
-| admin | admin |
-| Operation | Operator1 |
+| admin       | admin |
+| Operation   | Operator1 |
 | Application | engineer1, engineer2 |
 
+<br>
 
 ポリシー構成
 | ポリシー名 | フルアクセス権限 |
@@ -39,22 +44,30 @@ IAMグループ構成
 ### 1. IAMポリシーの作成
 
 ### 手順
-1. Application（カスタムポリシー）の作成
-   - EC2、ELB、Autoscaling、RDS、S3のフルアクセス権限付与
-2. Oeration（カスタムポリシー）の作成
-   - Clooud Watch、Cloud Trail、Configのフルアクセス権限付与
+
+1. Application（カスタムポリシー）の作成<br>
+EC2、ELB、Autoscaling、RDS、S3のフルアクセス権限付与
+   
+2. Oeration（カスタムポリシー）の作成<br>
+Clooud Watch、Cloud Trail、Configのフルアクセス権限付与
+
+<br>
 
 ### 2. IAMグループ・ユーザの作成
 
-###手順
-1. Applicationグループを作成
-   - Applicationポリシーを設定
-2. Operationグループを作成
-　　- Application、Operationポリシーを設定
-3. engineer1, engineer2の作成
-   - Apllicationグループに追加
-4. Operator1の作成
-   - Operationグループに追加
+### 手順
+
+1. Applicationグループを作成<br>
+   Applicationポリシーを設定
+   
+2. Operationグループを作成<br>
+   Application、Operationポリシーを設定
+   
+4. engineer1, engineer2の作成<br>
+   Apllicationグループに追加
+   
+5. Operator1の作成<br>
+   Operationグループに追加
 
 ---
 
