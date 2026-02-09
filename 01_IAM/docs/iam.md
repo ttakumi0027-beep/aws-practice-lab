@@ -40,8 +40,8 @@
 | ポリシー名 | 権限 |
 |----|----|
 | AdministratorAccess | フルアクセス |
-| Oeration            | EC2、ELB、Autoscaling、RDS、S3、Clooud Watch、Cloud Trail、Config フルアクセス権限|
-| Apllication         | EC2、ELB、Autoscaling、RDS、S3 フルアクセス権限|
+| Operation           | EC2、ELB、Autoscaling、RDS、S3、ClooudWatch、CloudTrail、Config フルアクセス権限|
+| Application         | EC2、ELB、Autoscaling、RDS、S3 フルアクセス権限|
 
 <br>
 
@@ -85,8 +85,8 @@ Clooud Watch、Cloud Trail、Configのフルアクセス権限付与
    adminグループに追加
 
 ### 3. Cloud Trailのログ有効化
-[¥1]: Cloud Trailは無料だがログの出力先のS3で、データ保存料金がかかるため作成後削除済み
-
+- 管理イベントのみ取得
+- ログ保存先：S3
 
 ---
 
