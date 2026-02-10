@@ -95,7 +95,7 @@ AWS環境の操作ログを取得し、監査およびセキュリティ対策�
 
 - 管理イベントのみ取得
 - ログ保存先: S3
-<img src="../images/cloudtrail_log_for_test_cloudtrail.png" width="400">
+<img src="../images/log_for_test_cloudtrail.png" width="400">
 
 ### 4. CloudWatchアラームの有効化
 
