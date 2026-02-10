@@ -3,6 +3,7 @@
 ## 目的
 - IAMユーザの作成方法及び意義
 - IAMユーザの運用方法
+- 適切なコスト管理
 
 ## 設計方針
 - 権限管理はユーザではなくグループ単位で実施
@@ -45,10 +46,23 @@
 
 <br>
 
-- Cloud Trail設定
-AWS環境の操作ログを取得し、監査およびセキュリティ対策を行うため有効化
-管理イベントのみ（検証用かつコスト削減のため）
+- CloudTrail設定
 
+| 証跡名 | 保存先 | イベント |
+|----|----|----|
+|  logs-for-test | S3 |　管理イベント　|
+
+AWS環境の操作ログを取得し、監査およびセキュリティ対策を行うため有効化
+
+<br>
+
+- CloudWatch請求アラーム設定
+
+| 請求名 | SNSトピック |　内容 |
+|----|----|----|
+| Billing_Alerm | Billing_Alerm |　コストアラーム通知　|
+
+<br>
 
 ---
 
@@ -75,12 +89,21 @@ AWS環境の操作ログを取得し、監査およびセキュリティ対策�
 3. adminグループを作成し、adminユーザを追加<br>
 <img src="../images/admin_group.png" width="400">
    
+<br>
 
 ### 3. Cloud Trailのログ有効化
 
 - 管理イベントのみ取得
-- ログ保存先：S3
+- ログ保存先: S3
+<img src="../images/cloudtrail_log_for_test_cloudtrail.png" width="400">
 
+### 4. CloudWatchアラームの有効化
+
+- コスト通知（1000円以上）
+- 送信方法: SNS
+- サブスクリプションの有効化
+<img src="../images/cloudwatch_billing_alerm.png" width="400">
+<img src="../images/sns_billing_alerm.png" width="400">
 ---
 
 ## 学んだこと
