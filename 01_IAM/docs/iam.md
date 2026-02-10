@@ -41,6 +41,7 @@
 | AdministratorAccess | フルアクセス |
 | Operation           | EC2、ELB、Autoscaling、RDS、S3、ClooudWatch、CloudTrail、Config フルアクセス権限|
 | Application         | EC2、ELB、Autoscaling、RDS、S3 フルアクセス権限|
+| S3_acccess          |  EC2からS3へのアクセス権限（ロール） |
 
 <br>
 
@@ -95,6 +96,8 @@ AWS環境の操作ログを取得し、監査およびセキュリティ対策�
 - ログ保存先: S3
 <img src="../images/log_for_test_cloudtrail.png" width="400">
 
+<br>
+
 ### 4. CloudWatchアラームの有効化
 
 - コスト通知（1000円以上）
@@ -102,12 +105,38 @@ AWS環境の操作ログを取得し、監査およびセキュリティ対策�
 - サブスクリプションの有効化
 <img src="../images/cloudwatch_billing_alerm.png" width="400">
 <img src="../images/sns_billing_alerm.png" width="400">
+
+<br>
+
+### 5. IAMロールの割り当て
+
+- ロール割り当て用のEC2（sample_server）の作成
+- ロールポリシー（S3_access）の作成
+- ロールのアタッチ
+<img src="../images/s3_access_role.png" width="400">
+
+**実行コマンド**
+
+```bash
+
+aws s3 ls
+```
+**実行結果**
+
+```bash
+# S3バケット一覧が表示されていることを確認
+
+2026-02-09 10:15:34 aws-cloudtrail-logs-XXXXXXXX
+```
+
+
 ---
 
 ## 学んだこと
 - IAMユーザへ直接権限付与するのではなく、グループ経由で付与するのが推奨
 - CloudTrailを有効化することで監査ログを取得できる
 - CloudTrailおよびBillingアラームを有効化することで、セキュリティおよびコスト監視を実装できる
+- 信頼ポリシーがリソースの信頼を、許可ポリシーで実際にどのような操作を許可するかを定義する
 
 ---
 
@@ -118,6 +147,8 @@ AWS環境の操作ログを取得し、監査およびセキュリティ対策�
   - Action     特定のリソースに対する許可・否定の宣言
   - Resource   Actionで設定したリソース一覧
   - Condition  ポリシーの対象を絞る設定。（IPアドレスの制限など）
+
+- リソース作成時の命名規則の統一
 --
 
 ## 参考
