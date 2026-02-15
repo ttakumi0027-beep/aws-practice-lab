@@ -92,7 +92,7 @@
 - EC2構成
 
 | AZ | インスタンス名 | 関連サブネット |
-|----|----|----|----|----|
+|----|----|----|
 | 1a | Test-public−1a     | Test-public-1a  |
 | 1a | Test-private-1a    | Test-private-1a |
 
@@ -114,11 +114,23 @@
 
 <br>
 
-###3. EC2インスタンスの作成
+### 3. EC2インスタンスの作成
 - パブリック・プライベートインスタンスの作成
 - パブリック → プライベートにアクセス
 
+**実行コマンド**
 
+```bash
+# パブリックインスタンスに接続
+ssh -i ~/.ssh/test_sample.pem ec2-user@[パブリックIP]
+
+# rootにスイッチ
+sudo su
+
+# プライベートインスタンスの接続（private_keyにキーペアをコピーすること）
+ssh ec2-user@[プライベートIP] -i private_key.pem
+
+```
 
 <br>
 
