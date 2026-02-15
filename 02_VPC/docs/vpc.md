@@ -28,7 +28,7 @@
 
 | NAT Gateway名 | 配置サブネット | AZ | Elastic IP | 用途 |
 |------|------|------|------|------|
-| Test-natgw-1c | Test-public-1c | ap-northeast-1c | Test-eip-1c | Test-private-1cのアウトバウンド通信 |
+| Test-natgw | Test-public-1c | ap-northeast-1c | Test-eip-1c | Test-private-1cのアウトバウンド通信 |
 
 <br>
 
@@ -49,7 +49,6 @@
 | ap-northeast-1c | Test-public-1c | Public | 10.0.2.0/24 |
 | ap-northeast-1c | Test-private-1c | Private | 10.0.3.0/24 
 
-
 <br>
 
 - ルートテーブル構成
@@ -60,6 +59,42 @@
 | 1a | Test-rtb-natgw      | Test-private-1a | 0.0.0.0/0 | NATGW-1a |
 | 1c | Test-rtb-public     | Test-public-1c  | 0.0.0.0/0 | IGW |
 | 1c | Test-rtb-natgw      | Test-private-1c | 0.0.0.0/0 | NATGW-1c |
+
+
+<br>
+
+- セキュリティグループの構成
+
+| Direction | Protocol | Port | Source/Destination | 用途 |
+|------------|----------|------|--------------------|------|
+| Inbound    | TCP      | 22   | 0.0.0.0/0          | SSH接続 　　　|
+| Outbound   | All      | All  | 0.0.0.0/0          | 外向き通信許可 |
+
+<br>
+
+- ネットワークACL（Test-nacl）の構成
+
+| ルール番号 | Direction | Protocol | Port | Source/Destination | Allow/Deny |
+|------------|------------|----------|------|--------------------|------------|
+| 100        | Inbound    | SSH   | 22  | 0.0.0.0/0 | Allow |
+| 200        | Inbound    | HTTP  | 80  | 0.0.0.0/0 | Allow |
+| 300        | Inbound    | HTTPS | 443 | 0.0.0.0/0 | Allow |
+| 400        | Inbound    | カスタムTCP | 1024 - 65535 | 0.0.0.0/0 | Allow |
+| *          | Inbound    | All   | All | All       | Deny |
+| 100        | Outbound   | SSH   | 22  | 0.0.0.0/0 | Allow |
+| 200        | Outbound   | HTTP  | 80  | 0.0.0.0/0 | Allow |
+| 300        | Outbound   | HTTPS | 443 | 0.0.0.0/0 | Allow |
+| 400        | Outbound   | カスタムTCP | 1024 - 65535 | 0.0.0.0/0 | Allow |
+| *          | Outbound   | All   | All | All       | Deny |
+
+<br>
+
+- EC2構成
+
+| AZ | インスタンス名 | 関連サブネット |
+|----|----|----|----|----|
+| 1a | Test-public−1a     | Test-public-1a  |
+| 1a | Test-private-1a    | Test-private-1a |
 
 ---
 
@@ -73,15 +108,31 @@
 
 <br>
 
-### 2. NATゲートウェイの作成
+### 2. セキュリティグループ・ネットワークACLの設定
+- ネットワークACLの作成およびサブネットのアタッチ
+- 
+
+<br>
+
+###3. EC2インスタンスの作成
+- パブリック・プライベートインスタンスの作成
+- パブリック → プライベートにアクセス
+
+
+
+<br>
+
+### 4. NATゲートウェイの作成
 - NAT（Test-natgw-1c）ゲートウェイの作成
 - パブリックサブネット（Test-public-1c）へアタッチ
-- プライベートサブネットとNAT GWのルートテーブル（）の作成
-
+- プライベートサブネットとNAT GWのルートテーブル（Test-rtb-natgw）の作成
+- パブリックとプライベートにEC2インスタンスを作成
+- 
 
 ---
 
 ## 学んだこと
+
 
 ---
 
