@@ -44,10 +44,10 @@
 
 | AZ | サブネット名 | 種別 | CIDR |
 |----|----|----|----|
-| ap-northeast-1a | Test-public-1a | Public | 10.0.0.0/24 |
+| ap-northeast-1a | Test-public-1a  | Public | 10.0.0.0/24 |
 | ap-northeast-1a | Test-private-1a | Private | 10.0.1.0/24 |
-| ap-northeast-1c | Test-public-1c | Public | 10.0.2.0/24 |
-| ap-northeast-1c | Test-private-1c | Private | 10.0.3.0/24 
+| ap-northeast-1c | Test-public-1c  | Public | 10.0.2.0/24 |
+| ap-northeast-1c | Test-private-1c | Private | 10.0.3.0/24 |
 
 <br>
 
@@ -56,10 +56,9 @@
 | AZ | ルートテーブル名 | 関連サブネット | 宛先 | ターゲット |
 |----|----|----|----|----|
 | 1a | Test-rtb-public     | Test-public-1a  | 0.0.0.0/0 | IGW |
-| 1a | Test-rtb-natgw      | Test-private-1a | 0.0.0.0/0 | NATGW-1a |
+| 1a | Test-rtb-natgw-1a   | Test-private-1a | 0.0.0.0/0 | NATGW-1a |
 | 1c | Test-rtb-public     | Test-public-1c  | 0.0.0.0/0 | IGW |
-| 1c | Test-rtb-natgw      | Test-private-1c | 0.0.0.0/0 | NATGW-1c |
-
+| 1c | Test-rtb-natgw-1c   | Test-private-1c | 0.0.0.0/0 | NATGW-1c |
 
 <br>
 
@@ -135,16 +134,29 @@ ssh ec2-user@[プライベートIP] -i private_key.pem
 <br>
 
 ### 4. NATゲートウェイの作成
-- NAT（Test-natgw-1c）ゲートウェイの作成
-- パブリックサブネット（Test-public-1c）へアタッチ
-- プライベートサブネットとNAT GWのルートテーブル（Test-rtb-natgw）の作成
-- パブリックとプライベートにEC2インスタンスを作成
-- 
+- NAT（Test-natgw）ゲートウェイをパブリックサブネット（Test-public-1a）に作成
+- ルートテーブル（Test-rtb-natgw-1a）の編集
+- プライベートサブネットから外部通信可能か検証
+
+**実行コマンド**
+
+```bash
+# 外部通信のためGoogleへ疎通確認
+curl -I https://www.google.com
+```
+
+**結果**
+
+```
+# 下記のようにステータス200が返ってくる
+HTTP/2 200
+```
 
 ---
 
 ## 学んだこと
 
+- NATGWの接続タイプは基本パブリックを指定するが、プライベートは他のVPCやオンプレ環境と通信する際に使われる
 
 ---
 
