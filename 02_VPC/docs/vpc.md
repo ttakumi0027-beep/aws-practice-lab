@@ -103,19 +103,25 @@
 - IGWの作成
 - パブリック・プライベートサブネットの作成
 - ルートテーブルの紐付け
+<img src="../images/Test-vpc.png" width="400">
 
 
 <br>
 
 ### 2. セキュリティグループ・ネットワークACLの設定
-- ネットワークACLの作成およびサブネットのアタッチ
-- 
+- ネットワークACLの作成しVPCにアタッチ
+<img src="../images/Test-nacl.png" width="400">
+
+- セキュリティグループを作成
+<img src="../images/Test-sg.png" width="400">
 
 <br>
 
 ### 3. EC2インスタンスの作成
-- パブリック・プライベートインスタンスの作成
-- パブリック → プライベートにアクセス
+- AZ（1a）にパブリック・プライベートインスタンスの作成
+<img src="../images/EC2-pub-pri-1a.png" width="400">
+
+- パブリック → プライベートに接続
 
 **実行コマンド**
 
@@ -135,8 +141,14 @@ ssh ec2-user@[プライベートIP] -i private_key.pem
 
 ### 4. NATゲートウェイの作成
 - NAT（Test-natgw）ゲートウェイをパブリックサブネット（Test-public-1a）に作成
+<img src="../images/Test-natgw.png" width="400">
+
 - ルートテーブル（Test-rtb-natgw-1a）の編集
+<img src="../images/Test-rtb-natgw-1a.png" width="400">
+
 - プライベートサブネットから外部通信可能か検証
+
+<br>
 
 **実行コマンド**
 
@@ -147,7 +159,7 @@ curl -I https://www.google.com
 
 **結果**
 
-```
+```bash
 # 下記のようにステータス200が返ってくる
 HTTP/2 200
 ```
