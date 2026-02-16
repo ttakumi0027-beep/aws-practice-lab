@@ -180,3 +180,4 @@ HTTP/2 200
 ## 参考
 
 - https://cx.genech.co.jp/column/20250612-2
+- https://qiita.com/melonattacker/items/145dd8763883cb922400
