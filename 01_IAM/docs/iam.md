@@ -3,7 +3,7 @@
 ## 目的
 - IAMユーザの作成方法及び意義
 - IAMユーザの運用方法
-- 適切なコスト管理
+- 適切なコスト監視・管理
 
 ## 設計方針
 - 最小権限の原則に基づき、役割ごとに権限を分離
@@ -19,7 +19,7 @@
 
 | ユーザ名 | 役割 | 権限 |
 |----|----|----|
-| admin                 | 管理者  　　 | Admin権限を付与  　　　　　　　　　　　　|
+| admin                 | 管理者  　　 | AdministratorAccess権限権限を付与  　　|
 | Operator1             | 運用管理者   | 運用ツールや開発環境のアクセスを付与  　　|
 | engineer1, engineer2  | 開発者  　　 | アプリ開発環境のみアクセスを付与  　　　　|
 
@@ -39,9 +39,9 @@
 | ポリシー名 | 権限 |
 |----|----|
 | AdministratorAccess | フルアクセス |
-| Operation           | EC2、ELB、Autoscaling、RDS、S3、ClooudWatch、CloudTrail、Config フルアクセス権限|
-| Application         | EC2、ELB、Autoscaling、RDS、S3 フルアクセス権限|
-| S3_acccess          |  EC2からS3へのアクセス権限（ロール） |
+| Operation           | EC2、ELB、Auto scaling、RDS、S3、CloudWatch、CloudTrail、Config アクセス権限|
+| Application         | EC2、ELB、Autos caling、RDS、S3 アクセス権限|
+| S3_access           |  EC2インスタンスにアタッチし、S3へアクセスするためのIAMロール |
 
 <br>
 
@@ -72,7 +72,7 @@ AWS環境の操作ログを取得し、監査およびセキュリティ対策�
 1. Application（カスタムポリシー）の作成<br>
 <img src="../images/policy_application.png" width="400">
 
-2. Oeration（カスタムポリシー）の作成<br>
+2. Operation（カスタムポリシー）の作成<br>
 <img src="../images/policy_operation.png" width="400">
 
 <br>
