@@ -96,17 +96,21 @@
 | 1a | Test-public−1a     | Test-public-1a  |
 | 1a | Test-private-1a    | Test-private-1a |
 
+<br>
+
 - VPCエンドポイント構成
 
-| エンドポイント名 | 対象インスタンス | ロール |
+| エンドポイント名 | 対象インスタンス | ロール名 |
 |----|----|----|
 | Test-endpoint-1a | Test-private−1a   | S3_access（S3へのアクセス）|
+
+<br>
 
 - VPCフローログ構成
 
 | フローログ名 | 送信先ロググループ | ロール名　|
-|----|----|
-| Test-vpc-flowlogs | Test-flowlogs |   |
+|----|----| ----|
+| Test-vpc-flowlogs | Test-flowlogs | Flowlogs-Role |
 
 ---
 
@@ -177,11 +181,14 @@ curl -I https://www.google.com
 HTTP/2 200
 ```
 
+<br>
+
 ### 5. VPCエンドポイントの作成
 
 - NATGWの削除
 - プライベートサブネット（Test-private-1a）にS3へアクセスするロールを適用
 - VPCエンドポイント（Test-endpoint-1a）の作成
+<img src="../images/Test-endpoint-1a.png" width="400">
 
 - VPCエンドポイントからS3にアクセスできるか検証
 
@@ -200,12 +207,62 @@ aws s3 ls --region ap-northeast-1
 2026-02-09 10:15:35 aws-cloudtrail-logs-XXXXXX
 ```
 
+<br>
+
 ### 6. VPCフローログの作成
 
 - CloudWatchでロググループを作成
 - IAMポリシー及びロールの作成
-- VPCにロールに割り当て
+
+<details>
+<summary>信頼ポリシー（JSON）</summary>
+  
+```JSON
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "vpc-flow-logs.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+```
+
+</details>
+
+<details>
+<summary>許可ポリシー（JSON）</summary>
+
+```JSON
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:DescribeLogGroups",
+                "logs:DescribeLogStreams"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        }
+    ]
+}
+```
+</details>
+
+- VPCフローログの作成
+<img src="../images/Test-vpc-flowlogs.png" width="400">
+
 - ログストリームの確認
+<img src="../images/Logstream.png" width="400">
+
 
 ---
 
@@ -214,7 +271,7 @@ aws s3 ls --region ap-northeast-1
 - NATGWの接続タイプは基本パブリックを指定するが、プライベートは他のVPCやオンプレ環境と通信する際に使われる
 - NATGWはコストが高いため本当に必要か考えること。エンドポイントを使えばS3やDynamoDBへの接続は無料で利用できる
 （東京リージョンだと、約4,000〜5,000円/月 × AZ）
-- VPCフロールグにより、VPC内のトラフィックをClooudWatchでモニタリングできる
+- VPCフローログにより、VPC内のトラフィックをClooudWatchでモニタリングできる
 
 ---
 
