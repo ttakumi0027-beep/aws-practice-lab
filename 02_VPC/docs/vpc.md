@@ -3,7 +3,7 @@
 ## 目的
 - VPC及びサブネットの作成方法
 - ネットワークの構築
-- プライベートサブネットからの外部通信方法
+- プライベートサブネットからの外部通信方法（NAT・VPCエンドポイント）
 
 ## 設計方針
 - Public / Private Subnet を分離しセキュリティを確保
@@ -96,6 +96,18 @@
 | 1a | Test-public−1a     | Test-public-1a  |
 | 1a | Test-private-1a    | Test-private-1a |
 
+- VPCエンドポイント構成
+
+| エンドポイント名 | 対象インスタンス | ロール |
+|----|----|----|
+| Test-endpoint-1a | Test-private−1a   | S3_access（S3へのアクセス）|
+
+- VPCフローログ構成
+
+| フローログ名 | 送信先ロググループ | ロール名　|
+|----|----|
+| Test-vpc-flowlogs | Test-flowlogs |   |
+
 ---
 
 ## 構築手順
@@ -165,6 +177,36 @@ curl -I https://www.google.com
 HTTP/2 200
 ```
 
+### 5. VPCエンドポイントの作成
+
+- NATGWの削除
+- プライベートサブネット（Test-private-1a）にS3へアクセスするロールを適用
+- VPCエンドポイント（Test-endpoint-1a）の作成
+
+- VPCエンドポイントからS3にアクセスできるか検証
+
+<br>
+
+**実行コマンド**
+
+```bash
+aws s3 ls --region ap-northeast-1
+```
+
+**結果**
+
+```bash
+# 下記のように作成済みのS3が返ってくる
+2026-02-09 10:15:35 aws-cloudtrail-logs-XXXXXX
+```
+
+### 6. VPCフローログの作成
+
+- CloudWatchでロググループを作成
+- IAMポリシー及びロールの作成
+- VPCにロールに割り当て
+- ログストリームの確認
+
 ---
 
 ## 学んだこと
@@ -172,6 +214,7 @@ HTTP/2 200
 - NATGWの接続タイプは基本パブリックを指定するが、プライベートは他のVPCやオンプレ環境と通信する際に使われる
 - NATGWはコストが高いため本当に必要か考えること。エンドポイントを使えばS3やDynamoDBへの接続は無料で利用できる
 （東京リージョンだと、約4,000〜5,000円/月 × AZ）
+- VPCフロールグにより、VPC内のトラフィックをClooudWatchでモニタリングできる
 
 ---
 
@@ -184,3 +227,4 @@ HTTP/2 200
 
 - https://cx.genech.co.jp/column/20250612-2
 - https://qiita.com/melonattacker/items/145dd8763883cb922400
+- https://qiita.com/miyuki_samitani/items/f83bc082156a36770828
