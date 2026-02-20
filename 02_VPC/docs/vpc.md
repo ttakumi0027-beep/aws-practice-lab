@@ -7,8 +7,8 @@
 
 ## 設計方針
 - Public / Private Subnet を分離しセキュリティを確保
-- Private Subnet は NAT Gateway 経由でのみインターネット通信
-- 
+- 外部公開はIGW経由、内部はNATまたはVPCエンドポイント経由のみ
+- S3アクセスはVPCエンドポイントを利用しコスト最適化
 
 ## 構成図
 ![構成図]()
@@ -29,7 +29,7 @@
 
 | NAT Gateway名 | 配置サブネット | AZ | Elastic IP | 用途 |
 |------|------|------|------|------|
-| Test-natgw | Test-public-1c | ap-northeast-1c | Test-eip-1c | Test-private-1cのアウトバウンド通信 |
+| Test-natgw | Test-public-1a | ap-northeast-1a | Test-eip-1a | Test-private-1aのアウトバウンド通信 |
 
 <br>
 
@@ -269,6 +269,7 @@ aws s3 ls --region ap-northeast-1
 ## 学んだこと
 
 - NATGWの接続タイプは基本パブリックを指定するが、プライベートは他のVPCやオンプレ環境と通信する際に使われる
+- NACLはステートレスであるため、戻り通信も許可が必要
 - NATGWはコストが高いため本当に必要か考えること。エンドポイントを使えばS3やDynamoDBへの接続は無料で利用できる
 （東京リージョンだと、約4,000〜5,000円/月 × AZ）
 - VPCフローログにより、VPC内のトラフィックをClooudWatchでモニタリングできる
