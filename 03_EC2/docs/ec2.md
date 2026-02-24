@@ -57,6 +57,7 @@ yum install httpd -y
 
 # httpdを自動起動に設定
 systemctl enable httpd
+
 ```
 
 - index.htmlファイルの作成
@@ -79,11 +80,12 @@ systemctl enable httpd
 - EC2インスタンス（DB-server-1a）の作成
 - NATGWの作成
 - ルートテーブルにNATGW用のルートを設定
-- MySQLのインストール
+- MariaDBのインストール
 <details>
-<summary>MySQLインストール手順</summary>
+<summary>MariaDBインストール手順</summary>
   
 ```bash
+# MariaDBのインストール
 sudo dnf install mariadb105-server -y
 
 sudo systemctl start mariadb
@@ -93,16 +95,24 @@ sudo systemctl enable mariadb
 # ルートPWの設定
 mysql_secure_installation
 
+# SQL接続
+mysql -u root -p
 
-mysql –u root -p
-
+# test_dbテーブルの作成
 CREATE DATABASE test_db;
 
+# テーブルの確認
 SHOW DATABASES;
 ```
 
 </details>
 
+### 3. その他EC2関連の検証項目
+
+- EIPの関連付け<br>
+→ 固定IPを設定できる　→ インスタンスを停止しても、同じIPアドレスを使用できる
+
+- 
 ---
 
 ## 学んだこと
