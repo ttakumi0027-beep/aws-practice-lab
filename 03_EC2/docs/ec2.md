@@ -1,13 +1,17 @@
 # EC2設計・構築メモ
 
 ## 目的
+
+- Web、DBサーバの構築方法
 - EC2インスタンスのバックアップの仕方
-- 
 
 ## 設計方針
-- コストの最適解
-- 運用を意識した構成
 
+- WebサーバはPublic Subnetに配置し外部公開を実施
+- DBサーバはPrivate Subnetに配置し直接インターネットへ公開しない設計
+- DBサーバの外部通信はNAT Gateway経由とする
+- 将来的なAutoScalingを見据え、Web層とDB層を分離
+- AMIをリージョン間コピーすることで、災害対策（DR）を想定。
 
 ## 構成図
 ![構成図](../images/IAM_architect.png)
@@ -107,21 +111,48 @@ SHOW DATABASES;
 
 </details>
 
-### 3. その他EC2関連の検証項目
+### 3. AMIによるバックアップ
 
-- EIPの関連付け<br>
-→ 固定IPを設定できる　→ インスタンスを停止しても、同じIPアドレスを使用できる
+- WebサーバのAMI（Test-image-for-web）を手動で取得
+- AMIからの起動及び接続確認
 
-- 
+**実行コマンド**
+
+```bash
+# httpdがインストールされているか確認
+yum list installed | grep httpd
+```
+**結果**
+
+```bash
+generic-logos-httpd.noarch             18.0.0-12.amzn2023.0.3             @amazonlinux
+httpd.x86_64                           2.4.66-1.amzn2023.0.1              @amazonlinux
+httpd-core.x86_64                      2.4.66-1.amzn2023.0.1              @amazonlinux
+httpd-filesystem.noarch                2.4.66-1.amzn2023.0.1              @amazonlinux
+httpd-tools.x86_64                     2.4.66-1.amzn2023.0.1              @amazonlinux
+```
+→ ブラウザより”Hello, World”が表示されていることも確認
+
+- シンガポールリージョンのAMIをコピー →　同じく起動およびブラウザの表示を確認
+
+### 4. EBSの作成
+
+
+
 ---
 
 ## 学んだこと
 
+- EIPの関連付け固定IPを設定できる　→ インスタンスを停止しても、同じIPアドレスを使用できる
+- 起動テンプレートを利用することで、あらかじめ設定したテンプレからインスタンスを起動できる
+- AMIを別のリージョンにコピーでき、バックアップが可能（EBSボリュームのスナップショットも含む）
 - 
 
 ---
 
 ## 詰まった点・要確認事項
+
+- SQL構文の確認
 
 --
 
