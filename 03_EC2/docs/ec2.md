@@ -21,7 +21,7 @@
 | インスタンス名 | 配置サブネット | AZ |　用途 |
 |------|------|------|------|
 | Web-server-1a | Test-public-1a | ap-northeast-1a | Apacheサーバ |
-| DB-server-1a | Test-public-1c | ap-northeast-1a  | DBサーバ |
+| DB-server-1a | Test-private-1a | ap-northeast-1a  | DBサーバ |
 
 <br>
 
@@ -44,7 +44,7 @@
 
 ## 構築手順
 
-### 1. EC2インスタンス
+### 1. Webサーバの作成
 
 - インスタンス（Web-server-1a）の作成
 - Apacheのインストール
@@ -73,6 +73,35 @@ systemctl enable httpd
 </details>
 
 - Webブラウザより表示されていることを確認
+
+### 2. DBサーバの作成
+
+- EC2インスタンス（DB-server-1a）の作成
+- NATGWの作成
+- ルートテーブルにNATGW用のルートを設定
+- MySQLのインストール
+<details>
+<summary>MySQLインストール手順</summary>
+  
+```bash
+sudo dnf install mariadb105-server -y
+
+sudo systemctl start mariadb
+
+sudo systemctl enable mariadb
+
+# ルートPWの設定
+mysql_secure_installation
+
+
+mysql –u root -p
+
+CREATE DATABASE test_db;
+
+SHOW DATABASES;
+```
+
+</details>
 
 ---
 
