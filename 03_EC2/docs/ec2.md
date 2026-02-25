@@ -79,6 +79,8 @@ systemctl enable httpd
 
 - Webブラウザより表示されていることを確認
 
+<br>
+
 ### 2. DBサーバの作成
 
 - EC2インスタンス（DB-server-1a）の作成
@@ -111,6 +113,8 @@ SHOW DATABASES;
 
 </details>
 
+<br>
+
 ### 3. AMIによるバックアップ
 
 - WebサーバのAMI（Test-image-for-web）を手動で取得
@@ -135,8 +139,16 @@ httpd-tools.x86_64                     2.4.66-1.amzn2023.0.1              @amazo
 
 - シンガポールリージョンのAMIをコピー →　同じく起動およびブラウザの表示を確認
 
-### 4. EBSの作成
+### 4. スナップショットの作成
 
+- ボリュームのスナップショットの作成
+- インスタンス（Web-server-1a）を停止、ボリュームのデタッチ
+- スナップショットより、ボリュームのアタッチ
+- インスタンス起動し、ボリュームがアタッチしていることを確認
+
+### 5. DLMの設定
+
+- インスタンス（DB-server-1a）を下記のようにスクジュールを設定
 
 
 ---
@@ -146,16 +158,21 @@ httpd-tools.x86_64                     2.4.66-1.amzn2023.0.1              @amazo
 - EIPの関連付け固定IPを設定できる　→ インスタンスを停止しても、同じIPアドレスを使用できる
 - 起動テンプレートを利用することで、あらかじめ設定したテンプレからインスタンスを起動できる
 - AMIを別のリージョンにコピーでき、バックアップが可能（EBSボリュームのスナップショットも含む）
-- 
+- EBSのボリュームは増やすことはできるが、減らすことはできない
+- スナップショットはAWSが管理しているS3に保存される（自分が作成したS3ではない）
 
 ---
 
 ## 詰まった点・要確認事項
 
 - SQL構文の確認
+- MySQLを利用する予定だったが、Amazon Linux 2023は OpenSSL 3 系なのでOracle公式RPMはそのままでは依存関係エラーになったため、Maria DBを利用。→ Dockerなどを利用すればMySQLを使える。
 
 --
 
 ## 参考
+
+- https://qiita.com/y-keiyu/items/7c240a65ea708f6f8e96
+- https://www.digitalocean.com/community/tutorials/how-to-install-mariadb-on-ubuntu-20-04-ja
 
 ---
