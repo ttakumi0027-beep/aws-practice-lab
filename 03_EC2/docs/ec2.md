@@ -14,7 +14,7 @@
 - AMIをリージョン間コピーすることで、災害対策（DR）を想定。
 
 ## 構成図
-![構成図](../images/IAM_architect.png)
+![構成図](../images/EC2_architect.png)
 
 ---
 
@@ -136,8 +136,10 @@ httpd-filesystem.noarch                2.4.66-1.amzn2023.0.1              @amazo
 httpd-tools.x86_64                     2.4.66-1.amzn2023.0.1              @amazonlinux
 ```
 → ブラウザより”Hello, World”が表示されていることも確認
+<img src="../images/hello_world.png" width="400">
 
 - シンガポールリージョンのAMIをコピー →　同じく起動およびブラウザの表示を確認
+<img src="../images/singapore.png" width="400">
 
 ### 4. スナップショットの作成
 
@@ -145,10 +147,12 @@ httpd-tools.x86_64                     2.4.66-1.amzn2023.0.1              @amazo
 - インスタンス（Web-server-1a）を停止、ボリュームのデタッチ
 - スナップショットより、ボリュームのアタッチ
 - インスタンス起動し、ボリュームがアタッチしていることを確認
+<img src="../images/snapshot.png" width="400">
 
 ### 5. DLMの設定
 
 - インスタンス（DB-server-1a）を下記のようにスクジュールを設定
+<img src="../images/dlm.png" width="400">
 
 
 ---
