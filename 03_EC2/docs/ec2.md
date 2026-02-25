@@ -135,7 +135,7 @@ httpd-core.x86_64                      2.4.66-1.amzn2023.0.1              @amazo
 httpd-filesystem.noarch                2.4.66-1.amzn2023.0.1              @amazonlinux
 httpd-tools.x86_64                     2.4.66-1.amzn2023.0.1              @amazonlinux
 ```
-→ ブラウザより”Hello, World”が表示されていることも確認
+→ ブラウザより”Hello, World”が表示されていることも確認<br>
 <img src="../images/hello_world.png" width="400">
 
 - シンガポールリージョンのAMIをコピー →　同じく起動およびブラウザの表示を確認
