@@ -67,6 +67,7 @@
 |----|----|----|
 | 1a | Test-web-1a  | Test-public-1a  |
 | 1a | Test-rds-1a  | Test-private-1a |
+| 1c | Test-web-1c  | Test-public-1c  |
 
 <br>
 
@@ -87,6 +88,9 @@
 
 - Webサーバ（Test-web-1a）の作成　→ 起動時に下記のシェルの実行
 
+<details>
+<summary>シェル</summary>
+
 ```bash
 #!/bin/bash
 
@@ -106,11 +110,35 @@ aws s3 cp s3://test-vpc-20260302/index.html /var/www/html
 
 ```
 
+</details>
 
+<details>
+<summary>シェルの確認</summary>
 
-### 2.　EC２インスタンスの構築
+```bash
+# httpdがインストールされていること
+yum list installed | grep httpd
 
+# httpdが起動していること
+systemctl status httpd
 
+# ホスト名が、Test-bashであること
+cat /etc/hostname 
+
+# Asia/Tokyoが表示されていること
+ls -la /etc/localtime 
+
+# LANG=ja_JP.UTF-8が表示されていること
+cat /etc/locale.conf 
+
+# index.htmlが確認できること
+ls -la /var/www/html/index.html
+```
+
+</details>
+
+- AMI（test-vpc-web-server）の作成
+- Webサーバ（Test-web-1c）をAMIより作成
 
 ---
 
