@@ -84,6 +84,8 @@
 - VPC/サブネット/IGW/NATの作成
 - S3バケット（test-vpc-20260302）の作成
 
+<br>
+
 ### 2. EC2の作成
 
 - Webサーバ（Test-web-1a）の作成　→ 起動時に下記のシェルの実行
@@ -139,6 +141,15 @@ ls -la /var/www/html/index.html
 
 - AMI（test-vpc-web-server）の作成
 - Webサーバ（Test-web-1c）をAMIより作成
+
+<br>
+
+### 3. ターゲットグループの作成
+
+- ターゲットグループ（Test-elb-tg）に、Webサーバを追加
+- ロードバランサー（Test-alb）の作成
+- ロードバランサーのDNS名より、ブラウザに下記のようにidex.htmlの中身が表示されること
+
 
 ---
 
