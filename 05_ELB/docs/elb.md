@@ -1,6 +1,5 @@
 # ELB設計・構築メモ
 
-<br>
 
 ## 目的
 
@@ -32,7 +31,6 @@
 |----|----|----|
 | Test-igw | Test-vpc | Test-rtb-public |
 
-<br>
 
 - NATゲートウェイ構成
 
@@ -40,7 +38,6 @@
 |------|------|------|------|
 | Test-natgw | Test-public-1a | ap-northeast-1a | Test-private-1aのアウトバウンド通信 |
 
-<br>
 
 -  VPC構成
 
@@ -48,7 +45,6 @@
 |----|----|
 | Test-vpc | 10.0.0.0/16 |
 
-<br>
 
 - サブネット構成
 
@@ -59,19 +55,15 @@
 | ap-northeast-1c | Test-public-1c  | Public | 10.0.2.0/24 |
 | ap-northeast-1c | Test-private-1c | Private | 10.0.3.0/24 |
 
-<br>
 
 - EC2構成
 
 | AZ | インスタンス名 | 関連サブネット |
 |----|----|----|
 | 1a | Test-web-1a            | Test-public-1a  |
-| 1a | Auto-scaling-server-1a | Test-public-1a  |
 | 1a | Test-rds-1a            | Test-private-1a |
 | 1c | Test-web-1c            | Test-public-1c  |
-| 1c | Auto-scaling-server-1c | Test-public-1c  |
 
-<br>
 
 - ASG構成
 
@@ -97,7 +89,6 @@
 - VPC/サブネット/IGW/NATの作成
 - S3バケット（test-vpc-20260302）の作成
 
-<br>
 
 ### 2. EC2の作成
 
@@ -155,7 +146,6 @@ ls -la /var/www/html/index.html
 - AMI（test-vpc-web-server）の作成
 - Webサーバ（Test-web-1c）をAMIより作成
 
-<br>
 
 ### 3. ターゲットグループの作成
 
@@ -171,6 +161,36 @@ ls -la /var/www/html/index.html
 - Autoscaling用のインスタンスが立ち上がっているか確認
 <img src="../images/AS_1a.png" width="400">
 <img src="../images/AS_1c.png" width="400">
+
+- インスタンス（Test-web-1aとTest-web-1c）をASGにアタッチ
+- 稼働しているインスタンスが２台であること
+<img src="../images/EC2_running.png" width="400">
+
+- stressのインストール
+
+```bash
+
+# stressのインストール
+wget https://rpmfind.net/linux/dag/redhat/el7/en/x86_64/dag/RPMS/stress-1.0.2-1.el7.rf.x86_64.rpm
+
+sudo rpm -ivh stress-1.0.2-1.el7.rf.x86_64.rpm
+
+rpm -qa|grep stress
+
+# バージョンが表示される
+stress --version
+
+#stressによるCPU負荷コマンド
+stress -c 2 -t 300
+
+```
+- それぞれのサーバにログインし、stressをかける
+- 下記のようにスケールする
+<img src="../images/stress_autoscale.png" width="400">
+
+- 負荷停止後に、サーバが２台にスケールインしていることを確認
+
+### 5. RDSの作成
 
 
 
