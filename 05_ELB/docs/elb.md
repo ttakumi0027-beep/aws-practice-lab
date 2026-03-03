@@ -36,9 +36,9 @@
 
 - NATゲートウェイ構成
 
-| NAT Gateway名 | 配置サブネット | AZ | Elastic IP | 用途 |
-|------|------|------|------|------|
-| Test-natgw | Test-public-1a | ap-northeast-1a | Test-eip-1a | Test-private-1aのアウトバウンド通信 |
+| NAT Gateway名 | 配置サブネット | AZ | 用途 |
+|------|------|------|------|
+| Test-natgw | Test-public-1a | ap-northeast-1a | Test-private-1aのアウトバウンド通信 |
 
 <br>
 
@@ -65,15 +65,28 @@
 
 | AZ | インスタンス名 | 関連サブネット |
 |----|----|----|
-| 1a | Test-web-1a  | Test-public-1a  |
-| 1a | Test-rds-1a  | Test-private-1a |
-| 1c | Test-web-1c  | Test-public-1c  |
+| 1a | Test-web-1a            | Test-public-1a  |
+| 1a | Auto-scaling-server-1a | Test-public-1a  |
+| 1a | Test-rds-1a            | Test-private-1a |
+| 1c | Test-web-1c            | Test-public-1c  |
+| 1c | Auto-scaling-server-1c | Test-public-1c  |
 
 <br>
 
-- S3構成
+- ASG構成
 
+| ASG名 | 起動テンプレ名 | 希望/最小/最大 | AZ |
+|----|----|----| ---- |
+| Test-asg | Test-for-asg | 2/2/4 | 1a/1c |
 
+- SG構成
+
+| Direction | Protocol | Port | Source/Destination | 用途 |
+|------------|----------|------|--------------------|------|
+| Inbound    | TCP      | 22   | 0.0.0.0/0          | SSH接続      |
+| Inbound    | TCP      | 80   | 0.0.0.0/0          | HTTP通信 　　|
+| Inbound    | TCP      | 443  | 0.0.0.0/0          | HTTPS通信　　|
+| Outbound   | All      | All  | 0.0.0.0/0          | 外向き通信許可 |
 
 ---
 
@@ -151,10 +164,21 @@ ls -la /var/www/html/index.html
 - ロードバランサーのDNS名より、ブラウザに下記のようにidex.htmlの中身が表示されること
 
 
+### 4. ASGの作成
+
+- 起動テンプレート（Test-for-asg）の作成
+- ASGの作成
+- Autoscaling用のインスタンスが立ち上がっているか確認
+<img src="../images/AS_1a.png" width="400">
+<img src="../images/AS_1c.png" width="400">
+
+
+
 ---
 
 ## 学んだこと
 
+- ライフサイクルフックとは、ASGによるインスタンスの起動や削除といったときに、インスタンスを一時的に停止してカスタムアクションを実行
 - 
 
 ---
