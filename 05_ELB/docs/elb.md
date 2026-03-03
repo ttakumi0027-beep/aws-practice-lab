@@ -11,9 +11,8 @@
 
 ## 設計方針
 
-- 単一障害点をなくす
+- 単一AZ障害時にもWebサービスを継続させるためマルチAZ構成
 - ALBによる高可用性
-- マルチAZ構成による可用性の確保
 - ネットワークの分離
 
 ---
@@ -60,9 +59,8 @@
 
 | AZ | インスタンス名 | 関連サブネット |
 |----|----|----|
-| 1a | Test-web-1a            | Test-public-1a  |
-| 1a | Test-rds-1a            | Test-private-1a |
-| 1c | Test-web-1c            | Test-public-1c  |
+| 1a | Test-web-1a | Test-public-1a  |
+| 1c | Test-web-1c | Test-public-1c  |
 
 
 - ASG構成
@@ -151,14 +149,14 @@ ls -la /var/www/html/index.html
 
 - ターゲットグループ（Test-elb-tg）に、Webサーバを追加
 - ロードバランサー（Test-alb）の作成
-- ロードバランサーのDNS名より、ブラウザに下記のようにidex.htmlの中身が表示されること
+- ロードバランサーのDNS名より、ブラウザに下記のようにindex.htmlの中身が表示されること
 
 
 ### 4. ASGの作成
 
 - 起動テンプレート（Test-for-asg）の作成
 - ASGの作成
-- Autoscaling用のインスタンスが立ち上がっているか確認
+- Auto Scaling用のインスタンスが立ち上がっているか確認
 <img src="../images/AS_1a.png" width="400">
 <img src="../images/AS_1c.png" width="400">
 
@@ -207,7 +205,7 @@ stress -c 2 -t 300
 
 ### 1. stressによる負荷がかからない件
 
-・下記のコマンドでは負荷がかからなかったため修正。またWeb1台では、Cloud Watchより平均43%ほどしか負荷がかからなかったため、Web2台で負荷をかけるようにした。
+・下記のコマンドでは負荷がかからなかったため修正。またWeb1台では、CloudWatchより平均43%ほどしか負荷がかからなかったため、Web2台で負荷をかけるようにした。
 
 ```bash
 # 修正前
