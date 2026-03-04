@@ -189,11 +189,53 @@ stress -c 2 -t 300
 
 - 負荷停止後に、サーバが２台にスケールインしていることを確認
 
-### 5. RDSの作成
+### 5. RDSサーバの構築
 
 - サブネットグループ（test-rds）の作成
-- 
+- RDSの作成
+- 自動で作られたSG（rds-ec2-1）にインバウンド通信をASGからのインバウンドに編集
+<img src="../images/web_in.png" width="400">
 
+- 作成時に作ったSG（Test-db-sg）インバウンドが特定IPになっているためASGからのインバウンドに編集
+<img src="../images/test_db_in.png" width="400">
+
+- 接続の確認
+
+```bash
+# MySQLコマンドを使うため、MariaDBをインストール
+dnf install mariadb105 -y
+
+# mariadbがインストールされていることを確認
+dnf list installed | grep mariadb
+
+# RDSへ接続
+mysql -h (RDSエンドポイント) -u (ユーザー名) -p
+```
+
+- DB及びテーブルの作成
+
+```SQL
+# DBの作成
+create database testdb;
+
+use testdb;
+
+# accountテーブルを作成
+create table testdb.account(id int, name varchar(20));
+
+insert into account value(1001, "takumi");
+
+insert into account value(1002, "taro");
+
+# accountテーブルにユーザが追加されていること
+select * from account;
+```
+
+
+
+### 6. マスターとスレーブ構成
+
+- 
 
 ---
 
