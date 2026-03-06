@@ -158,9 +158,6 @@ ls -la /var/www/html/index.html
 - 起動テンプレート（Test-for-asg）の作成
 - ASGの作成
 - Auto Scaling用のインスタンスが立ち上がっているか確認
-<img src="../images/AS_1a.png" width="400">
-<img src="../images/AS_1c.png" width="400">
-
 - インスタンス（Test-web-1aとTest-web-1c）をASGにアタッチ
 - 稼働しているインスタンスが２台であること
 <img src="../images/EC2_running.png" width="400">
