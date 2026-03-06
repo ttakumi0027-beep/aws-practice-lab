@@ -150,7 +150,7 @@ ls -la /var/www/html/index.html
 
 - ターゲットグループ（Test-elb-tg）に、Webサーバを追加
 - ロードバランサー（Test-alb）の作成
-- ロードバランサーのDNS名より、ブラウザに下記のようにindex.htmlの中身が表示されること
+- ロードバランサーのDNS名より、index.htmlの中身が表示されること
 
 
 ### 4. ASGの作成
@@ -229,7 +229,7 @@ select * from account;
 ```
 
 - RDS（test-rds-1）のリードレプリカ（read-replica）を作成
-  <img src="../images/rerad_replica.png" width="400">
+<img src="../images/read_replica.png" width="400">
 
 
 ---
