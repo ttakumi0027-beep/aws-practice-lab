@@ -29,13 +29,21 @@
 nslookup <ドメイン名>
 ```
 
-### 2. ルーティング
+### 2. シンプルルーティングの検証
 
+- インスタンスのAMIを作成
+- AMIをシンガポールとシドニーにコピー
+- AレコードにシンガポールとシドニーのパブリックIPを追記
+- 各サーバのindex.htmlの修正
+- 下記のように書くリージョン間でシンプルルーティングできていることを確認
+<img src="../images/tokyo.png" width="400">
+<img src="../images/singapore.png" width="400">
+<img src="../images/sydney.png" width="400">
 
+### 3. ALB
+
+- AレコードにALBエイリアスを設定
 - 
-
-
-
 ---
 
 ## 学んだこと
